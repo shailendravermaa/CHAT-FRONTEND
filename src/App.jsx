@@ -15,7 +15,7 @@ const initialMessages = [
   {
     id: "1",
     user: {
-      name: "Alex Johnson",
+      name: "Shailendra verma ",
       avatar: "/placeholder.svg?height=40&width=40",
       role: "Software Engineer",
     },
@@ -24,12 +24,12 @@ const initialMessages = [
     timestamp: "2 hours ago",
     likes: 5,
     replies: 3,
-    
+    tags: ["system design", "interview"],
   },
   {
     id: "2",
     user: {
-      name: "Jamie Smith",
+      name: "Amit",
       avatar: "/placeholder.svg?height=40&width=40",
       role: "Senior Developer",
     },
@@ -38,9 +38,155 @@ const initialMessages = [
     timestamp: "1 hour ago",
     likes: 8,
     replies: 1,
-    
+    tags: ["advice", "experience"],
   },
 ];
+/* 
+export default function ForumPage() {
+  const [messages, setMessages] = useState(initialMessages);
+  const [newMessage, setNewMessage] = useState("");
+  const messagesEndRef = useRef(null);
+  const socketRef = useRef(null);
+
+  // Initialize Socket.IO connection and set up message listener
+  useEffect(() => {
+    // Connect to the Socket.IO server
+    socketRef.current = io("https://socketproject-production.up.railway.app");
+
+    // Listen for incoming messages
+    socketRef.current.on("user-message", (message) => {
+      setMessages((prevMessages) => [...prevMessages, message]);
+    });
+
+    // Cleanup on component unmount
+    return () => {
+      socketRef.current.disconnect();
+    };
+  }, []);
+
+  // Handle sending a message via Socket.IO
+  const handleSendMessage = () => {
+    if (newMessage.trim() === "") return;
+
+    // Send the message content to the server
+    socketRef.current.emit("user-message", newMessage);
+
+    // Clear the input field
+    setNewMessage("");
+  };
+
+  // Handle liking a message locally
+  const handleLike = (id) => {
+    setMessages(messages.map((msg) => (msg.id === id ? { ...msg, likes: msg.likes + 1 } : msg)));
+  };
+
+  // Scroll to the bottom when messages change
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
+  return (
+    <div className="container mx-auto py-10 px-4">
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold mb-2">Common Q&A Forum</h1>
+        <p className="text-muted-foreground">Ask questions, share answers, and collaborate with other candidates</p>
+      </div>
+
+      <div className="flex flex-col h-[calc(100vh-300px)]">
+        <div className="flex-1 overflow-y-auto mb-4 space-y-6">
+          {messages.length > 0 ? (
+            messages.map((message) => (
+              <Card key={message.id} className="shadow-sm">
+                <CardHeader className="pb-3">
+                  <div className="flex justify-between">
+                    <div className="flex items-center gap-3">
+                      <Avatar>
+                        <AvatarImage src={message.user.avatar} alt={message.user.name} />
+                        <AvatarFallback>{message.user.name.charAt(0)}</AvatarFallback>
+                      </Avatar>
+                      <div>
+                        <CardTitle className="text-base">{message.user.name}</CardTitle>
+                        <CardDescription>
+                          {message.user.role} • {message.timestamp}
+                        </CardDescription>
+                      </div>
+                    </div>
+                  </div>
+                </CardHeader>
+                <CardContent className="pb-3">
+                  <p className="text-sm">{message.content}</p>
+                  {message.tags.length > 0 && (
+                    <div className="flex flex-wrap gap-2 mt-3">
+                      {message.tags.map((tag) => (
+                        <Badge key={tag} variant="secondary" className="text-xs">
+                          {tag}
+                        </Badge>
+                      ))}
+                    </div>
+                  )}
+                </CardContent>
+                <CardFooter className="pt-0 flex justify-between">
+                  <div className="flex gap-4">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="text-muted-foreground hover:text-foreground"
+                      onClick={() => handleLike(message.id)}
+                    >
+                      <LucideHeart className="mr-1 h-4 w-4" />
+                      {message.likes}
+                    </Button>
+                    <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
+                      <LucideMessageCircle className="mr-1 h-4 w-4" />
+                      {message.replies}
+                    </Button>
+                  </div>
+                  <Button variant="ghost" size="sm">
+                    Reply
+                  </Button>
+                </CardFooter>
+              </Card>
+            ))
+          ) : (
+            <div className="text-center py-12">
+              <LucideMessageSquare className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
+              <h3 className="text-lg font-medium mb-2">No discussions yet</h3>
+              <p className="text-muted-foreground mb-4">Be the first to start a discussion!</p>
+            </div>
+          )}
+          <div ref={messagesEndRef} />
+        </div>
+
+        <Card className="sticky bottom-0">
+          <CardContent className="p-4">
+            <div className="flex gap-4">
+              <Textarea
+                placeholder="Type your message..."
+                value={newMessage}
+                onChange={(e) => setNewMessage(e.target.value)}
+                className="min-h-[80px] flex-1"
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && !e.shiftKey) {
+                    e.preventDefault();
+                    handleSendMessage();
+                  }
+                }}
+              />
+              <Button className="self-end" onClick={handleSendMessage} disabled={newMessage.trim() === ""}>
+                <LucideSend className="h-4 w-4" />
+                <span className="sr-only">Send</span>
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </div>
+  );
+} */
+  
+
+// Initial messages to display when the component loads
+
 
 // Main ForumPage component
 export default function ForumPage() {
@@ -61,6 +207,7 @@ export default function ForumPage() {
     socketRef.current.on("user-message", (message) => {
       setMessages((prevMessages) => [...prevMessages, message]);
     });
+   
     
     // Cleanup function to disconnect the socket when the component unmounts
     return () => {
@@ -70,13 +217,20 @@ export default function ForumPage() {
 
   // Function to handle sending a new message
   const handleSendMessage = () => {
+    const sample= [
+      "Alice", "Bob", "Charlie", "Diana", "Ethan",
+      "Fiona", "George", "Hannah", "Ian", "Julia",
+      "Kevin", "Luna", "Mason", "Nina", "Oliver",
+      "Paula", "Quinn", "Ryan", "Sophie", "Tom"
+    ];
     if (newMessage.trim() === "") return; // Prevent sending empty messages
 
     // Create a full message object with user details
     const message = {
       id: Date.now().toString(), // Unique ID based on timestamp
       user: {
-        name: "You",
+        
+        name: "YOU",
         avatar: "/placeholder.svg?height=40&width=40",
         role: "Member",
       },
@@ -137,7 +291,18 @@ export default function ForumPage() {
                     </div>
                   </div>
                 </CardHeader>
-               
+                <CardContent className="pb-3">
+                  <p className="text-sm">{message.content}</p>
+                  {/* {message.tags.length > 0 && (
+                    <div className="flex flex-wrap gap-2 mt-3">
+                      {message.tags.map((tag) => (
+                        <Badge key={tag} variant="secondary" className="text-xs">
+                          {tag}
+                        </Badge>
+                      ))}
+                    </div>
+                  )} */}
+                </CardContent>
                 <CardFooter className="pt-0 flex justify-between">
                   <div className="flex gap-4">
                     <Button
@@ -149,9 +314,14 @@ export default function ForumPage() {
                       <LucideHeart className="mr-1 h-4 w-4" />
                       {message.likes}
                     </Button>
-                    
+                    {/* <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
+                      <LucideMessageCircle className="mr-1 h-4 w-4" />
+                      {message.replies}
+                    </Button> */}
                   </div>
-                  
+                  {/* <Button variant="ghost" size="sm">
+                    Reply
+                  </Button> */}
                 </CardFooter>
               </Card>
             ))
